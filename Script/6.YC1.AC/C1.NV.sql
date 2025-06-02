@@ -1,6 +1,6 @@
 -- Tạo view chỉ xem được thông tin của chính bản thân cho NVCB
     CREATE OR REPLACE VIEW X_ADMIN.view_NVCB_NV AS 
-    SELECT * FROM NHANVIEN where MaNV = SYS_CONTEXT('X_UNIVERSITY_CONTEXT','USER_NAME');
+    SELECT * FROM X_ADMIN.NHANVIEN where MaNV = SYS_CONTEXT('X_UNIVERSITY_CONTEXT','USER_NAME');
     -- Gán quyền SELECT, UPDATE(DT) trên view_NVCB cho NVCB và gán role NVCB cho tất cả các vai trò khác
     GRANT SELECT, UPDATE(DT) ON X_ADMIN.view_NVCB_NV TO XR_NVCB;
     GRANT XR_NVCB TO XR_TRGDV, XR_NVTCHC, XR_GV, XR_NVPDT, XR_NVPKT, XR_NVCTSV;
