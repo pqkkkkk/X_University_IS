@@ -30,3 +30,5 @@ In this project, we analyze the security policies and the featuring requirements
 - Enforce security policies for users by using RBAC, VPD, OLS.
 - Enforce auditing policy.
 - Backup and recovery data by using Oracle tools such as datapump, RMAN.
+## 🚀 Build and run
+Visit the document: [Guide to build and run the project](https://docs.google.com/document/d/1Ajlj1wlA1kzeREOcpCH96XQh1MDD2CjXD4HsIKNUZiY/edit?tab=t.0) to check detailed instructions on how to build and run the project.
