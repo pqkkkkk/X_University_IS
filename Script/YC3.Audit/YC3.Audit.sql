@@ -3,9 +3,12 @@
   ALTER SYSTEM SET audit_trail=DB SCOPE=SPFILE;
   ALTER SESSION SET CONTAINER =CDB$ROOT;
   ALTER SYSTEM SET audit_trail=NONE SCOPE=SPFILE;
-
+  show parameter audit_trail;
 -- 2. Dùng Standard Audit
   AUDIT SELECT ON X_ADMIN.DANGKY BY ACCESS;
+  COMMIT;
+  AUDIT SELECT ON X_ADMIN.NHANVIEN BY ACCESS WHENEVER NOT SUCCESSFUL;
+  AUDIT SELECT ON X_ADMIN.MOMON BY ACCESS WHENEVER SUCCESSFUL;
   COMMIT;
 -- 3. Dùng Fine-Grained Audit
   -- a. Hành vi cập nhật quan hệ ĐANGKY tại các trường liên quan đến điểm số nhưng

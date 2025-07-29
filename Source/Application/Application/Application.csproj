@@ -15,6 +15,7 @@
 	  <WindowsSdkPackageVersion>10.0.26100.57</WindowsSdkPackageVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="DatabaseConnectionWindow.xaml" />
     <None Remove="Views\AdminDashboardUC.xaml" />
     <None Remove="Views\Components\DataListUC.xaml" />
     <None Remove="Views\DataListUC.xaml" />
@@ -60,6 +61,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
@@ -67,6 +71,14 @@
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
     <PackageReference Include="System.Security.Permissions" Version="9.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="DatabaseConnectionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\ThongBaoUC.xaml">

@@ -26,26 +26,81 @@ using Application.DataAccess.MetaData.User;
 using Application.DataAccess.MetaData.TableView;
 using Microsoft.Windows.ApplicationModel.WindowsAppRuntime;
 using Application.DataAccess.ThongBao;
+using Microsoft.Extensions.Configuration;
+using Application.Configuration;
 
 namespace Application
 {
     public partial class App : Microsoft.UI.Xaml.Application
     {
         public IServiceProvider? serviceProvider { get; private set; }
+        public IConfiguration configuration { get; private set; }
+        public DatabaseSettings databaseSettings { get; set; }
         public List<Model.OracleObject> tableList { get; set; } = new List<Model.OracleObject>();
 
         public App()
         {
+            //LoadEnvVariables();
+            databaseSettings = new DatabaseSettings();
             this.InitializeComponent();
         }
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            m_databaseConnectionWindow = new DatabaseConnectionWindow();
+            m_databaseConnectionWindow.ConnectionEstablished += HandleConnectionEstablished;
+            m_databaseConnectionWindow.Activate();
+            //m_window = new MainWindow();
+            //m_window.signInClicked += OnSignInClicked;
+            //m_window.Activate();
+        }
+        public void LoadEnvVariables()
+        {
+            string configFolder = System.IO.Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "MyApp");
+            string externalConfigPath = System.IO.Path.Combine(configFolder, "appsettings.json");
+            if (!File.Exists(externalConfigPath))
+            {
+                Directory.CreateDirectory(configFolder);
+                string defaultConfigPath = System.IO.Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+                File.Copy(defaultConfigPath, externalConfigPath);
+            }
+
+            var builder = new ConfigurationBuilder();
+            if (File.Exists(externalConfigPath))
+            {
+                builder.AddJsonFile(externalConfigPath, optional: false, reloadOnChange: true);
+            }
+            else
+            {
+
+                builder
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            }
+
+            configuration = builder.Build();
+            databaseSettings = new DatabaseSettings();
+            configuration.GetSection("DatabaseSettings").Bind(databaseSettings);
+
+        }
+        private void HandleConnectionEstablished(string dataSourceUrl, string dataSourcePort, string databaseName)
+        {
+            databaseSettings.DataSourceUrl = dataSourceUrl;
+            databaseSettings.DataSourcePort = dataSourcePort;
+            databaseSettings.DatabaseName = databaseName;
+
+           
             m_window = new MainWindow();
             m_window.signInClicked += OnSignInClicked;
             m_window.Activate();
-        }
 
+            if (m_databaseConnectionWindow != null)
+            {
+                m_databaseConnectionWindow.Close();
+            }
+        }
         private async  void OnSignInClicked(string username, string password, string role)
         {
             try
@@ -54,7 +109,7 @@ namespace Application
                 string actual_role = "XR_" + role.ToUpper();
                 if (role != "ADMIN")
                 {
-                    var adminConnectString = $"User Id=X_ADMIN;Password=123;Data Source=localhost:1521/XEPDB1";
+                    var adminConnectString = $"User Id=X_ADMIN;Password=123;Data Source={databaseSettings.DataSourceUrl}:{databaseSettings.DataSourcePort}/{databaseSettings.DatabaseName}";
                     var adminConnection = new OracleConnection(adminConnectString);
 
                     IPrivilegeDao privilegeDao = new PrivilegeXAdminDao(adminConnection);
@@ -75,9 +130,9 @@ namespace Application
                 string connectionString = "";
                 
                 if(username.Equals("sys"))
-                    connectionString = $"User Id={actual_username};Password={password};Data Source=localhost:1521/XEPDB1;DBA Privilege=SYSDBA";
+                    connectionString = $"User Id={actual_username};Password={password};Data Source={databaseSettings.DataSourceUrl}:{databaseSettings.DataSourcePort}/{databaseSettings.DatabaseName};DBA Privilege=SYSDBA";
                 else
-                    connectionString = $"User Id={actual_username};Password={password};Data Source=localhost:1521/XEPDB1";
+                    connectionString = $"User Id={actual_username};Password={password};Data Source={databaseSettings.DataSourceUrl}:{databaseSettings.DataSourcePort}/{databaseSettings.DatabaseName}";
 
                 var sqlConnection = new OracleConnection(connectionString);
                 await sqlConnection.OpenAsync();
@@ -120,5 +175,6 @@ namespace Application
         }
 
         private MainWindow? m_window;
+        private DatabaseConnectionWindow? m_databaseConnectionWindow;
     }
 }

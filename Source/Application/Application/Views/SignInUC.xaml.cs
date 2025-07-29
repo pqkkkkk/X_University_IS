@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
 using Application.DataAccess.MetaData.Role;
+using Application.Configuration;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,7 +29,8 @@ namespace Application.Views
         public ObservableCollection<Model.Role> roleList { get; set; }
         public SignInUC()
         {
-            string adminConnectString = $"User Id=X_ADMIN;Password=123;Data Source=localhost:1521/XEPDB1";
+            DatabaseSettings databaseSettings = (Microsoft.UI.Xaml.Application.Current as App)?.databaseSettings;
+            string adminConnectString = $"User Id=X_ADMIN;Password=123;Data Source={databaseSettings.DataSourceUrl}:{databaseSettings.DataSourcePort}/{databaseSettings.DatabaseName}";
             
             var sqlConnection = new OracleConnection(adminConnectString);
             IRoleDao roleDao = new RoleXAdminDao(sqlConnection);

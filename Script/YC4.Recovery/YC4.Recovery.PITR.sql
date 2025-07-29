@@ -1,5 +1,6 @@
 -- Trước tiên cần tạo pdb để test, tránh ảnh hưởng đến dữ liệu thực tế
 -- Tạo tablespace để test trên pdb mới tạo (thay đổi đường dẫn theo hệ thống của bạn)
+-- vì em đã tạo tablespace rồi nên em sẽ không tạo lại nữa
     create tablespace users datafile 'c:\AppStorage\oracle-db\oradata\XE\XEPDB3\users01.dbf' 
     size 10M autoextend on next 10M maxsize unlimited;
     CREATE USER local_user_xepdb3 IDENTIFIED BY 123;
@@ -27,7 +28,7 @@
     INSERT INTO local_user_xepdb3.PITR_DATA_TEST (ID, NAME, AGE) VALUES (11, 'Ian Johnson', 24);
     COMMIT;
 
--- Lấy SCN tại thời điểm hiện tại để sử dụng trong PITR recovery với RMAN
+-- Lấy SCN tại thời điểm trước khi thực hiện xóa dữ liệu để sử dụng trong PITR recovery với RMAN
     SELECT TIMESTAMP_TO_SCN(sysdate) from v$database;
 -- Xóa data để test phục hồi
     DELETE FROM local_user_xepdb3.PITR_DATA_TEST WHERE ID IN (1, 2, 3, 4,5);

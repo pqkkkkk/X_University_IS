@@ -1,4 +1,5 @@
--- Tạo user để test với dữ liệu chỉ thuộc schema của user này
+-- Tạo user để test với dữ liệu chỉ thuộc schema của user này,
+-- vì em tạo rồi nên em không tạo lại nữa, chỉ cần chạy phần export và import thôi
     CREATE USER datapump_test_user IDENTIFIED BY 123;
     GRANT CONNECT, RESOURCE TO datapump_test_user;
     GRANT CREATE TABLE, CREATE SESSION TO datapump_test_user;
@@ -22,7 +23,11 @@
     INSERT INTO DATAPUMP_TEST_USER.DATA_TEST (ID, NAME, AGE) VALUES (9, 'George Harris', 33);
     INSERT INTO DATAPUMP_TEST_USER.DATA_TEST (ID, NAME, AGE) VALUES (10, 'Hannah Ivers', 26);
     COMMIT;
+
+    SELECT * FROM DATAPUMP_TEST_USER.DATA_TEST;
 -- Tạo directory object (thay đổi đường dẫn theo hệ thống của bạn)
+-- Đường dẫn này là nơi lưu trữ file .dmp và .log sau khi export
+-- vì em tạo rồi nên em không tạo lại nữa, chỉ cần chạy phần export và import thôi
     CREATE OR REPLACE DIRECTORY datapump_dir AS 'C:\AppStorage\oracle-datadump-exports';
     GRANT READ, WRITE ON DIRECTORY datapump_dir TO datapump_test_user;
 
@@ -34,7 +39,7 @@
         h1 := DBMS_DATAPUMP.OPEN(
             operation   => 'EXPORT',
             job_mode    => 'SCHEMA',
-            job_name    => 'datapump_test_job8'
+            job_name    => 'datapump_test_job10'
         );
         -- Chỉ định nơi xuất file .dmp và .log
         DBMS_DATAPUMP.ADD_FILE(
@@ -60,6 +65,7 @@
     /
 
 -- Tạo user để import dữ liệu vào
+-- vì em tạo rồi nên em không tạo lại nữa, chỉ cần chạy phần export và import thôi
     CREATE USER datapump_test_user_import IDENTIFIED BY 123;
     GRANT CONNECT, RESOURCE TO datapump_test_user_import;
     GRANT CREATE TABLE, CREATE SESSION TO datapump_test_user_import;
@@ -73,7 +79,7 @@
         h2 := DBMS_DATAPUMP.OPEN(
             operation => 'IMPORT',
             job_mode  => 'SCHEMA',
-            job_name  => 'datapump_import_job4'
+            job_name  => 'datapump_import_job6'
         );
         -- Gán file dump cần import
         DBMS_DATAPUMP.ADD_FILE(
@@ -100,4 +106,6 @@
     END;
     /
 
+    DROP TABLE datapump_test_user_import.DATA_TEST;
+    SELECT * FROM datapump_test_user_import.DATA_TEST;
 COMMIT;

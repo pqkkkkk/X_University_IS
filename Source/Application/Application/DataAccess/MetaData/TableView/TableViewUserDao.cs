@@ -23,6 +23,11 @@ namespace Application.DataAccess.MetaData.TableView
             throw new NotImplementedException();
         }
 
+        public List<OracleObject> getAllView()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<string> GetColumnListOfTableOrView(string tableName)
         {
             var result = new List<string>();

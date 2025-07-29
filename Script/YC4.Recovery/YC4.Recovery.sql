@@ -1,4 +1,6 @@
+ARCHIVE LOG LIST;
 -- Tạo tablespace để test
+-- vì em đã tạo tablespace rồi nên em sẽ không tạo lại nữa
     CREATE TABLESPACE RECOVERY_TEST DATAFILE 'RECOVERY_TEST.DBF'
     SIZE 10M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
 
@@ -9,6 +11,7 @@
     COMMIT;
 
 -- Tạo data để test
+-- thêm dữ liệu vào tablespace này
     CREATE TABLE RMAN_TEST.DATA_TEST
     (
         ID NUMBER,
