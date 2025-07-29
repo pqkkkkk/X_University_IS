@@ -55,13 +55,13 @@
    END;
    /
 
-   --BEGIN
-   --    DBMS_RLS.DROP_POLICY(
-   --        object_schema   => 'X_ADMIN',
-   --        object_name     => 'DANGKY',
-   --        policy_name     => 'DANGKY_SELECT'
-   --    );
-   --END;
+   BEGIN
+      DBMS_RLS.DROP_POLICY(
+          object_schema   => 'X_ADMIN',
+          object_name     => 'DANGKY',
+          policy_name     => 'DANGKY_SELECT'
+      );
+   END;
    COMMIT;
 
 
@@ -121,14 +121,14 @@
    END;
    /
 
-   -- BEGIN
-   --    DBMS_RLS.DROP_POLICY(
-   --        object_schema   => 'X_ADMIN',
-   --        object_name     => 'DANGKY',
-   --        policy_name     => 'DANGKY_INS_DEL_UPD'
-   --    );
-   -- END;
-   -- /
+   BEGIN
+      DBMS_RLS.DROP_POLICY(
+          object_schema   => 'X_ADMIN',
+          object_name     => 'DANGKY',
+          policy_name     => 'DANGKY_INS_DEL_UPD'
+      );
+   END;
+   /
 GRANT SELECT ON X_ADMIN.DANGKY TO XR_GV;
 GRANT SELECT, UPDATE(DIEMTH, DIEMCT, DIEMCK, DIEMTK) ON X_ADMIN.DANGKY TO XR_NVPKT;
 GRANT SELECT, DELETE, INSERT ON X_ADMIN.DANGKY TO XR_SV;

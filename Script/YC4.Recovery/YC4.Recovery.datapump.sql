@@ -39,7 +39,7 @@
         h1 := DBMS_DATAPUMP.OPEN(
             operation   => 'EXPORT',
             job_mode    => 'SCHEMA',
-            job_name    => 'datapump_test_job9'
+            job_name    => 'datapump_test_job10'
         );
         -- Chỉ định nơi xuất file .dmp và .log
         DBMS_DATAPUMP.ADD_FILE(
@@ -79,7 +79,7 @@
         h2 := DBMS_DATAPUMP.OPEN(
             operation => 'IMPORT',
             job_mode  => 'SCHEMA',
-            job_name  => 'datapump_import_job5'
+            job_name  => 'datapump_import_job6'
         );
         -- Gán file dump cần import
         DBMS_DATAPUMP.ADD_FILE(
@@ -106,5 +106,6 @@
     END;
     /
 
-    SELECt * FROM DATAPUMP_TEST_USER_IMPORT.DATA_TEST;
+    DROP TABLE datapump_test_user_import.DATA_TEST;
+    SELECT * FROM datapump_test_user_import.DATA_TEST;
 COMMIT;

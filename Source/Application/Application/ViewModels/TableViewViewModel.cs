@@ -49,8 +49,8 @@ namespace Application.ViewModels
         public List<object> LoadData()
         {
             List<Model.OracleObject> tableList = tableViewDao.getAllTable();
-
-
+            List<Model.OracleObject> viewList = tableViewDao.getAllView();
+            tableList.AddRange(viewList);
             return tableList.Cast<object>().ToList();
         }
 

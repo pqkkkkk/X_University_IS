@@ -1,20 +1,27 @@
 # X_University_IS - project of the "Data Security in Information Systems" course
 
-## Introduction
-X_University_IS is the basic information systems of a university. Manage basic data of a university such as student, employee, course, grade.
-- Using MVVM model approach
-- UI: window application built with WinUI 3
-- Database: Oracle
-## Project structure
+![Oracle](https://img.shields.io/badge/Oracle-red?style=for-the-badge)
+![WinUI 3](https://img.shields.io/badge/WinUI%203-blue?style=for-the-badge)
+![MVVM](https://img.shields.io/badge/MVVM-green?style=for-the-badge)
+
+
+## 🚀 Overview
+In this project, we analyze the security policies and the featuring requirements of a university information system. Continuing, we enforce security policies by using Oracle database features such as Role-Based Access Control (RBAC), Virtual Private Database (VPD), Oracle Label Security (OLS), and auditing. We also implement a UI application using WinUI 3 with MVVM pattern to manage the system. This application ensures that security policies are enforced for each user based on their roles and privileges. 
+
+- Course: Data Security in Information Systems
+- Team size: 3
+
+## 📁 Project structure
 ```
 .
 ├── Script/         # scripts to create database, enforce security policies
-├── Source/         # UI source code
+├── Source/         # UI source code with WinUI 3
 ├── .gitignore/     
 └── README.md    
 ```
-## Main Features
-- Sign in to Oracle database
+## ✨ Main Features
+- Sign in to the system with different roles.
+- View and manage data based on user roles.
 - Admin
     - Manage user and role of system
     - Grant, revoke privileges on tables, views, procedure,...
